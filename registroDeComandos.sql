@@ -58,6 +58,9 @@ SELECT COUNT(id_chave_primária), atributo_ex_nome FROM nome_da_tabela GROUP BY 
 /* Busca com Join com segmento de chave estrangeira  OBS: ver criação arquivo exercicio1 linha 117*/
 SELECT * FROM nome_da_tabela_1 JOIN nome_da_tabela_2 ON nome_da_tabela_1.fk_atributo = nome_da_tabela_2.id_atributo
 
---Comando ON para criar parãmetros da busca
+--Comando para para juntar tabelas
+JOIN
+
+--Comando para criar parãmetros da busca
 ON
 

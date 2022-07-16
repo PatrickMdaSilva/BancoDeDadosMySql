@@ -164,7 +164,8 @@ SELECT * FROM videos JOIN seo ON videos.fk_seo = seo.id_seo;
 
 SELECT videos.title, seo.category FROM videos JOIN seo ON videos.fk_seo = seo.id_seo;
 
-SELECT videos.title, author.nome, seo.category FROM videos JOIN seo ON videos.fk_seo = seo.id_seo JOIN author ON videos.fk_author = author.id_author;  -- join vinculando as três tabelas.
+SELECT videos.title, author.nome, seo.category FROM videos JOIN seo ON videos.fk_seo = seo.id_seo 
+JOIN author ON videos.fk_author = author.id_author;  -- join vinculando as três tabelas.
 
 /* relação de N para N "muito para muitos" */
 
@@ -174,6 +175,60 @@ CREATE TABLE `dataBaseYt`.`playlist` (
     PRIMARY KEY (`id_playlist`)
 );
 
-INSERT INTO playlist (name_pl) VALUES ('HTML + CSS');
-INSERT INTO playlist (name_pl) VALUES ('HTML + PHP + JS');
-INSERT INTO playlist (name_pl) VALUES ('Python + PHP');
+INSERT INTO playlist (
+    name_pl
+) VALUES (
+    'HTML + CSS'
+);
+
+INSERT INTO playlist (
+    name_pl
+) VALUES (
+    'HTML + PHP + JS'
+);
+
+INSERT INTO playlist (
+    name_pl
+) VALUES (
+    'Python + PHP'
+);
+
+CREATE TABLE `dataBaseYt`.`videos_playlist` ( 
+    `id_vp` INT NOT NULL AUTO_INCREMENT , 
+    `fk_videos` INT NOT NULL , 
+    `fk_playlist` INT NOT NULL , 
+    PRIMARY KEY (`id_vp`)
+);
+
+INSERT INTO videos_playlist (
+    fk_videos, 
+    fk_playlist
+) VALUES (
+    2, 
+    1
+);
+INSERT INTO videos_playlist (
+    fk_videos, 
+    fk_playlist
+) VALUES (
+    3, 
+    1
+);
+
+SELECT * FROM playlist JOIN videos_playlist ON playlist.id_playlist = videos_playlist.fk_playlist;
+
+SELECT * FROM playlist JOIN videos_playlist ON playlist.id_playlist = videos_playlist.fk_playlist 
+JOIN videos ON videos.id_video = videos_playlist.fk_videos;
+
+SELECT playlist.name_pl, videos.title FROM playlist 
+JOIN videos_playlist ON playlist.id_playlist = videos_playlist.fk_playlist 
+JOIN videos ON videos.id_video = videos_playlist.fk_videos;
+
+SELECT playlist.name_pl, videos.title, author.nome FROM playlist 
+JOIN videos_playlist ON playlist.id_playlist = videos_playlist.fk_playlist 
+JOIN videos ON videos.id_video = videos_playlist.fk_videos
+JOIN author ON videos.fk_author = author.id_author;
+
+UPDATE playlist SET fk_author = 4 WHERE id_playlist = 1;
+
+SELECT author.nome, playlist.name_pl FROM playlist JOIN author ON playlist.fk_author = author.id_author;
