@@ -61,12 +61,6 @@ SELECT COUNT(id_chave_primária), atributo_ex_nome FROM nome_da_tabela GROUP BY 
 /* Busca com Join com segmento de chave estrangeira  OBS: ver criação arquivo exercicio1 linha 117*/
 SELECT * FROM nome_da_tabela_1 JOIN nome_da_tabela_2 ON nome_da_tabela_1.fk_atributo = nome_da_tabela_2.id_atributo
 
---Comando para para juntar tabelas
-JOIN
-
---Comando para criar parãmetros da busca
-ON
-
 --Comando para selecionar o banco
 SELECT
 
@@ -152,3 +146,76 @@ INSERT INTO nome_da_tabela2 (
     '123-B',
     1     -- valor do id nome_da_tabela1
 );
+
+-- Adicionando e deletando índice torna a pesquisa mais rápida 
+
+CREATE INDEX index_novo_nome
+ON nome_da_tabela(atributo_da_tabela);
+
+DROP INDEX index_novo_nome
+ON nome_da_tabela;
+
+--Comando para criar parãmetros da busca onde há relação
+ON
+
+--Comando para para unir consultas  geralmente existe relações entre as tabelas
+JOIN, INNER JOIN, 
+
+SELECT nome_da_tabela_1.atributo_1_da_tabela, nome_da_tabela_1.atributo_2_da_tabela, nome_da_tabela_2.atributo_1_da_tabela,
+FROM nome_da_tabela_1
+INNER JOIN nome_da_tabela_2
+ON nome_da_tabela_1.id = nome_da_tabela_2.id;
+
+RIGHT JOIN --retorna todos os dados da tabela da direita  e os necessários da esquerda
+RIGHT OUTER JOIN -- outro nome
+
+SELECT nome_da_tabela1.atributo_1_da_tabela, nome_da_tabela2.*
+FROM nome_da_tabela1
+RIGHT JOIN nome_da_tabela2
+ON nome_da_tabela1.id = nome_da_tabela2.atributo_id_vinculo_chave_estrangeira
+
+LEFT JOIN --retorna todos os dados da tabela da esquerda  e os necessários da direita
+LEFT OUTER JOIN -- outro nome
+
+SELECT nome_da_tabela1.atributo_1_da_tabela, nome_da_tabela2.*
+FROM nome_da_tabela1
+LEFT JOIN nome_da_tabela2
+ON nome_da_tabela1.id = nome_da_tabela2.atributo_id_vinculo_chave_estrangeira
+
+-- Comando Union para combinar o resultado de 2 ou mais selects. Union all cuidado para não trazer dados com redundância
+
+SELECT atributo_id FROM nome_da_tabela1
+UNION SELECT atributo_id FROM nome_da_tabela2
+
+-- Agrupar resultados 
+GROUP BY 
+SELECT atributo, COUNT(atributo) AS "Quanatidade"
+FROM nome_da_tabela
+GROUP BY atributo;
+
+/*Comando having ideal para utilizar com GROUP BY similar a where utilizado com aggregate sum, avg , group, by etc */
+
+--Exemplo 1 
+SELECT atributo, COUNT(atributo) AS "Quanatidade"
+FROM nome_da_tabela
+GROUP BY atributo;
+HAVING COUNT(atributo > 100)
+
+--Exemplo 2
+SELECT atributo, COUNT(atributo) AS "Quanatidade"
+FROM nome_da_tabela
+GROUP BY atributo;
+HAVING COUNT(atributo > 50)
+ORDER BY COUNT(atributo) DESC;
+
+-- Sub querry select dentro de outro 
+SELECT atributo, (
+    SELECT SUM (atributo)
+    FROM nome_da_tabela2
+    WHERE nome_da_tabela1.id = nome_da_tabela2.id
+) AS novo_nome 
+FROM nome_da_tabela1;
+
+-- Comando exist analisar sub querrys
+EXIST validação
+ANY recebe um true
