@@ -217,5 +217,104 @@ SELECT atributo, (
 FROM nome_da_tabela1;
 
 -- Comando exist analisar sub querrys
-EXIST validação
-ANY recebe um true
+SELECT id, atributo1, atributo2(
+    SELECT SUM (atributo_da_tabela_2)
+    FROM nome_da_tabela2
+    WHERE nome_da_tabela1.id = nome_da_tabela2.id
+) AS novo_nome 
+FROM nome_da_tabela1
+WHERE EXISTS (
+    SELECT SUM(atributo_da_tabela_2)
+    FROM nome_da_tabela_2
+    WHERE nome_da_tabela_1.id = nome_da_tabela_2.id
+    HAVING SUM(nome_da_tabela_2)
+);
+
+-- Comando any analisar sub querrys verifica se é verdadeiro
+
+SELECT atributo 
+FROM nome_da_tabela1
+WHERE id = ANY (
+    SELECT id
+    FROM nome_da_tabela2
+    WHERE atributo_da_tabela_2 > 150000
+);
+
+/* Funções em strings */
+
+SELECT atributo, CHAR_LENGTH(atributo), atributo2, CHAR_LENGTH(atributo2) 
+AS qtd_chars FROM nome_da_tabela;
+
+--Comando Concat
+
+SELECT CONCAT(atributo1, "Tem", atributo2, "anos de idade") As nome_e_idade
+From nome_da_tabela;
+
+-- Comando concat_WS adiciona separador
+SELECT CONCAT_WS( ",", atributo1, atributo2,) 
+From nome_da_tabela;
+
+-- Comando format comando para formatar casas decimais 
+SELECT atributo_id, atributo1, FORMAT(atributo1,1)
+FROM nome_da_tabela;
+
+--Comando instr para retornar a posição do caracter
+SELECT atributo, INSTR(atributo, "referência")
+FROM nome_da_tabela;
+
+--Comando lcase para retornar letras em caixa baixa 
+SELECT atributo_id, atributo1, LCASE(CONCAT(atributo1,"", atributo2))
+AS novo_nome
+FROM nome_da_tabela;
+
+--Comando Ucase para retornar letras em caixa alta
+SELECT atributo_id, atributo1, UCASE(CONCAT(atributo1,"", atributo2))
+AS novo_nome
+FROM nome_da_tabela;
+
+--Comando left extrai uma quantidade de caracteres de uma string
+SELECT atributo, LEFT(atributo, 8)
+FROM nome_da_tabela 
+WHERE atributo_id = 1; 
+
+--Comando right extrai uma quantidade de caracteres de uma string
+SELECT atributo, RIGHT(atributo, 8)
+FROM nome_da_tabela 
+WHERE atributo_id = 1; 
+
+--Comando substr extrai uma quantidade de caracteres com parâmetros.
+SELECT atributo, SUBSTR(atributo, 8, 2)
+FROM nome_da_tabela 
+WHERE atributo_id = 1; 
+
+--Comando replace troca uma parte da string port outra
+SELECT REPLACE (atributo, "dado", "novo_dado")
+FROM nome_da_tabela; 
+
+/* Funções em números */
+
+--Comando ceil para arredondar números para cima
+SELECT atributo, CEIL(atributo) AS arredondar
+FROM nome_da_tabela;
+
+--Comando floor para arredondar números para baixo
+SELECT atributo, FLOOR(atributo) AS arredondar
+FROM nome_da_tabela;
+
+--Comando count para contar rersultados ou registros
+SELECT COUNT(*)
+FROM nome_da_tabela;
+
+--Comando max busca o maior valor do atributo
+SELECT MAX(atributo)
+FROM nome_da_tabela;
+
+--Comando min busca o menor valor do atributo
+SELECT MIN(atributo) AS menor_valor
+FROM nome_da_tabela;
+
+--Comando Sum soma todo valor inserido naquele atributo
+SELECT SUM(atributo) AS Soma_total
+FROM nome_da_tabela;
+
+/* Funções DATE */
