@@ -231,7 +231,6 @@ WHERE EXISTS (
 );
 
 -- Comando any analisar sub querrys verifica se é verdadeiro
-
 SELECT atributo 
 FROM nome_da_tabela1
 WHERE id = ANY (
@@ -241,12 +240,10 @@ WHERE id = ANY (
 );
 
 /* Funções em strings */
-
 SELECT atributo, CHAR_LENGTH(atributo), atributo2, CHAR_LENGTH(atributo2) 
 AS qtd_chars FROM nome_da_tabela;
 
 --Comando Concat
-
 SELECT CONCAT(atributo1, "Tem", atributo2, "anos de idade") As nome_e_idade
 From nome_da_tabela;
 
@@ -318,3 +315,29 @@ SELECT SUM(atributo) AS Soma_total
 FROM nome_da_tabela;
 
 /* Funções DATE */
+
+--Comando adddate adiciona ou remove horas, dias, meses ou anos.
+SELECT atributo, ADDDATE(atributo, "5 days"), -- ou
+ADDDATE(atributo, INTERVAL 2 MONTH), -- ou
+ADDDATE(atributo, INTERVAL -3 MONTH) 
+FROM nome_da_tabela;
+
+--Comando datediff diferença entre duas datas 
+SELECT DATEDIFF(ADDDATE(atributo, INTERVAL  1 YEAR), atributo) From nome_da_tabela;
+
+--Comando addtime adiciona ou remove tempo
+SELECT ADDTIME(atributo, "5 03:00:00")
+FROM nome_da_tabela
+WHERE atributo_id > 10;
+
+--Comando para fgormatar data com um padrão indicado
+SELECT DATE_FORMAT(atributo, "%Y") AS ano, --ou
+DATE_FORMAT (atributo,%d/%m/%Y) AS data_formatada
+
+--Copmando retorna o dia da data
+SELECT atributo, DAY(atributo) AS dia
+FROM nome_da_tabela;
+
+--Comando para verificar o dia da semana
+SELECT atributo, DAYOFWEEK(atributo)
+FROM nome_da_tabela;
