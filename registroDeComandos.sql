@@ -341,3 +341,79 @@ FROM nome_da_tabela;
 --Comando para verificar o dia da semana
 SELECT atributo, DAYOFWEEK(atributo)
 FROM nome_da_tabela;
+
+--Comando para verificar o ano da semana
+SELECT atributo, DAYOFYEAR(atributo)
+FROM nome_da_tabela;
+
+--Comando para verificar a semana da semana
+SELECT atributo, WEEKOFYEAR(atributo) AS semana
+WEEKOFYEAR(ADDDATE(atributo, INTERVAL 4 MONTH))
+FROM nome_da_tabela;
+
+--Comando para extrair o mês de uma data
+SELECT atributo, 
+MONTH(atributo),
+MONTH(ADDDATE(atributo, INTERVAL 4 MONTH)),
+FROM nome_da_tabela;
+
+--Comando para extrair o ana de uma data
+SELECT atributo, 
+YEAR(atributo),
+YEAR(ADDDATE(atributo, INTERVAL 4 YEAR)),
+FROM nome_da_tabela;
+
+/* Outros exemplos de relacionamento entre tabelas exemplos de 1 para 1*/
+CREATE TABLE `relacionamentos`.`estudantes` (
+    `id` INT NOT NULL AUTO_INCREMENT , 
+    `nome` VARCHAR(100) NOT NULL , 
+    `turma` VARCHAR(5) NOT NULL , 
+    PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `relacionamentos`.`contatos` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
+    `telefone` VARCHAR(20), 
+    `estudante_id` INT NOT NULL, 
+    FOREIGN KEY (estudante_id) REFERENCES estudantes(id)
+);
+
+/* Outros exemplos de relacionamento entre tabelas exemplos de 1 para muitos*/
+CREATE TABLE `relacionamentos`.`clientes` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
+    `nome` VARCHAR(100), 
+    `data_nascimento` DATE  
+);
+
+CREATE TABLE `relacionamentos`.`pedidos` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
+    `qtd_itens` INT(10), 
+    `total` FLOAT, 
+    `cliente_id` INT NOT NULL, 
+    FOREIGN KEY (cliente_id) REFERENCES clientes(id)
+);
+
+-- Solicitação de dados entre as tabelas
+SELECT clientes.nome, pedidos.id AS pedido_id
+FROM clientes
+JOIN pedidos ON pedidos.cliente_id = cliente_id
+WHERE clientes.id =1;
+
+/* Outros exemplos de relacionamento entre tabelas exemplos de muitos para muitos tabela pivo media a relação*/
+CREATE TABLE `relacionamentos`.`materias` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT NOT NULL, 
+    `nome` VARCHAR(100)  
+);
+
+--Tabela PIvo
+CREATE TABLE `relacionamentos`.`estudante_materia` (   
+    `estudante_id` INT NOT NULL, 
+    `materia_id` INT NOT NULL,
+    FOREIGN KEY (estudante_id) REFERENCES estudantes(id),
+    FOREIGN KEY (materia_id) REFERENCES materias(id)   
+);
+-- Solicitação de dados entre as tabelas
+SELECT * FROM estudantes 
+JOIN estudante_materia 
+ON estudante_materia.estudante_id = estudantes.id 
+AND estudante_materia.materia_id = 2;
