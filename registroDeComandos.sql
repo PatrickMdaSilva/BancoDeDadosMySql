@@ -417,3 +417,8 @@ SELECT * FROM estudantes
 JOIN estudante_materia 
 ON estudante_materia.estudante_id = estudantes.id 
 AND estudante_materia.materia_id = 2;
+
+-- Criando usuário
+CREATE USER 'nome_usuario'@'localhost' INDENTIFIED BY 'senha';
+GRANT ALL PRIVILEGES ON *.* TO 'nome_usuario'@'localhost';
+FLUSH PRIVILEGES;
