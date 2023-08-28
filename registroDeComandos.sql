@@ -422,3 +422,25 @@ AND estudante_materia.materia_id = 2;
 CREATE USER 'nome_usuario'@'localhost' INDENTIFIED BY 'senha';
 GRANT ALL PRIVILEGES ON *.* TO 'nome_usuario'@'localhost';
 FLUSH PRIVILEGES;
+
+--Sub_Consultas encontra o qual no consta
+SELECT * FROM nome_tabela1
+WHERE atributo NOT IN (SELECT atributo fROM nome_tabela2);
+
+--Busca em multiplas Tabelas
+
+SELECT U.id_user, U.name, U.lastname, U.email, A.postal_code, A.state, A.city, A.district, A.street, 
+    I.nat, I.born, I.gender, I.company, I.drive, C.cel_f, C.cel_s, C.email_s, C.social, 
+    Z.profession, Z.area, Z.formation, Z.complete, Z.experience, Z.salary, Z.availability, 
+    Z.last_job, Z.work, Z.language, Z.level, Z.language2, Z.level2, Z.courses, Z.curr
+            FROM users AS U
+            INNER JOIN address AS A
+            ON U.id_user = A.id_user
+            INNER JOIN contact AS C
+            ON U.id_user = C.id_user
+            INNER JOIN information AS I
+            ON U.id_user = I.id_user
+            INNER JOIN curriculum AS Z
+            ON U.id_user = Z.id_user
+            WHERE U.create_id_user = :create_id_user
+            AND U.email LIKE '%$search%'
